@@ -88,5 +88,40 @@ def flipVert(im):
             im.putpixel((x,y), pixel)
 
 
-flipVert(bear)
+def scale(image):
+    width,height = image.size
+        
+    im = Image.new('RGB', (width//2,height//2))
+    
+    for x in range(width//2):
+        for y in range(height//2):
+            im.putpixel((x,y),image.getpixel((2*x,2*y)))
+    return im
+
+def blur(image):
+    width,height = image.size
+
+    for x in range(width-3):
+        for y in range(height-3):
+            (r,g,b) = image.getpixel((x,y))
+            (r1,g1,b1) = image.getpixel((x+1,y+1))
+            (r2,g2,b2) = image.getpixel((x+2,y+2))
+            (r3,g3,b3) = image.getpixel((x+3,y+3))
+
+            (rn,gn,bn) = ((r+r1+r2+r3)//4,(g+g1+g2+g3)//4,(b+b1+b2+b3)//4)
+            image.putpixel((x,y),(rn,gn,bn))
+
+def randomGrid(image,numBlocks):
+    width,height = image.size
+    blocks = []
+    im = Image.new('RGB', (width,height))
+    for x in range(0,width,width/numBlocks):
+        for y in range(0,height,height/numBlocks):
+            block = Image.new('RGB', (width/numBlocks,height/numBlocks))
+            for subx in range(x,x+width/numBlocks):
+                for suby in range(y,y+height/numBlocks):
+                    block.putpixel((0,),
+
+
+blur(bear)
 bear.save("tmp_Name.png")
