@@ -132,7 +132,7 @@ def randomGrid(image,numBlocks):
 
             
             blocks.append(block)
-            block.save("temp"+str(i)+".png")
+            #block.save("temp"+str(i)+".png")
             
             
             '''for subx in range(x,x+jumpW):
@@ -156,16 +156,13 @@ def randomGrid(image,numBlocks):
 
     im.save("randomGrid.png")
 
-
-randomGrid(bear,8)
-bear.save("tmp_Name.png")
-
-#IN CASE OF EMERGENCY
-'''
 def delTemp():
     for i in range (1500):
         if os.path.exists("temp"+str(i)+".png"):
             os.remove("temp"+str(i)+".png")
         else:
-            print("The file does not exist")
-'''
+            break
+
+randomGrid(bear,16)
+bear.save("tmp_Name.png")
+
