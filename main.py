@@ -1,8 +1,14 @@
 #import lab05Warmup_Theodore
 #import lab05Warmup_Sidharth
 from PIL import Image
+import random
+import numpy as np
+import os
 
 bear = Image.open("bear.png")
+
+
+
 
 def grayscale(im):
     ''' Invert the colors in the input image, im '''
@@ -114,14 +120,52 @@ def blur(image):
 def randomGrid(image,numBlocks):
     width,height = image.size
     blocks = []
+    i = 0
+    jumpW = width//numBlocks
+    jumpH = height//numBlocks
     im = Image.new('RGB', (width,height))
-    for x in range(0,width,width/numBlocks):
-        for y in range(0,height,height/numBlocks):
-            block = Image.new('RGB', (width/numBlocks,height/numBlocks))
-            for subx in range(x,x+width/numBlocks):
-                for suby in range(y,y+height/numBlocks):
-                    block.putpixel((0,),
+    for x in range(0,width,jumpW):
+        for y in range(0,height,jumpH):
+            #print(x,y)
+            block = Image.new('RGB', (jumpW,jumpH))
+            block = image.crop((x,y,x+jumpW,y+jumpH))
+
+            
+            blocks.append(block)
+            block.save("temp"+str(i)+".png")
+            
+            
+            '''for subx in range(x,x+jumpW):
+                for suby in range(y,y+jumpH):
+                    block.putpixel((subx-x,suby-y),image.getpixel((subx,suby)))
+            '''
+            i += 1
+    
+    #print(blocks)
+    random.shuffle(blocks)
+    #print(blocks)
+
+    #blockArray = np.asarray(blocks)
 
 
-blur(bear)
+    #im = Image.fromarray(blockArray)
+    for x in range(numBlocks):
+        for y in range(numBlocks):
+            im.paste(blocks[0],(x*jumpW,y*jumpH))
+            del blocks[0]
+
+    im.save("randomGrid.png")
+
+
+randomGrid(bear,8)
 bear.save("tmp_Name.png")
+
+#IN CASE OF EMERGENCY
+'''
+def delTemp():
+    for i in range (1500):
+        if os.path.exists("temp"+str(i)+".png"):
+            os.remove("temp"+str(i)+".png")
+        else:
+            print("The file does not exist")
+'''
